@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <title>IncidentCreation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Calibri, Helvetica, sans-serif;
+        }
+
+        .container {
+            padding: 50px;
+        }
+
+        input[type=text], input[type=password], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+            outline: none;
+        }
+
+        div {
+            padding: 10px 0;
+        }
+
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        .registerbtn {
+            background-color:  #4dffc3;
+            color: black;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Added style for error messages */
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <div class="container">
+        <center>  <h1> Registration Form</h1> </center>
+        <hr>
+        <div>
+            <label><b>Individual/Enterprise/Government</b></label>
+            <br><br>
+            <input type="radio" value="Individual" name="Individual" checked> Individual
+            <input type="radio" value="Enterprise" name="Enterprise"> Enterprise
+            <input type="radio" value="Government" name="Government"> Government
+        </div>
+        <br>
+        <label><b>Firstname</b></label>
+        <input type="text" id="Firstname" placeholder="Firstname" name="firstname" >
+        <span class="error" id="blankMsg"></span><br>
+        <label><b>Lastname</b></label>
+        <input type="text" id="lastname" placeholder="Lastname" name="lastname" >
+        <span class="error" id="charMsg"></span><br>
+        <label for="email"><b>Email</b></label>
+        <input type="text" id="email" placeholder="Enter Email" name="email" >
+        <br>
+        <b>Address</b>
+        <textarea cols="80" rows="5" placeholder="Address" value="address" ></textarea>
+        <br>
+        <label for="country"><b>Country</b></label>
+        <input type="text" id="country" placeholder="Enter Country" name="country" readonly>
+        <br>
+        <label for="state"><b>State</b></label>
+        <input type="text" id="state" placeholder="Enter State" name="state" >
+        <br>
+        <label for="city"><b>City</b></label>
+        <input type="text" id="city" placeholder="Enter City" name="city" readonly>
+        <br>
+        <label for="pincode"><b>Pincode</b></label>
+        <input type="text" id="pincode" placeholder="Enter Pincode" name="pincode" onblur="getCityAndCountry()" >
+        <br>
+        <label><b>Mobile Number</b></label>
+        <input type="text" name="country code" placeholder="Country Code"  value="+91" size="2" readonly/>
+        <input type="text" name="mobile" placeholder="mobile no." size="10" >
+        <label><b>Fax</b></label>
+        <input type="text" name="fax" placeholder="fax" size="10" >
+        <label><b>Phone</b></label>
+        <input type="text" name="phone" placeholder="phone no." size="10" >
+        <label><b>Reporter Name</b></label>
+        <input type="text" name="reporterName" placeholder="reporterName" size="10" >
+        <div>
+            <label><b>Priority</b></label>
+            <br><br>
+            <input type="radio" value="High" name="High" checked> Individual
+            <input type="radio" value="Medium" name="Medium"> Enterprise
+            <input type="radio" value="Low" name="Low"> Government
+        </div>
+        <div>
+            <label><b>Status</b></label>
+            <br><br>
+            <input type="radio" value="Open" name="Open" checked> Individual
+            <input type="radio" value="In progress" name="In progress"> Enterprise
+            <input type="radio" value="Closed" name="Closed"> Government
+        </div>
+        <b>Incident Details</b>
+        <textarea cols="80" rows="5" placeholder="Incident Details" value="incident Details" ></textarea>
+        <br>
+        <button type="submit" class="registerbtn">save</button>
+    </div>
+</form>
+</body>
+</html>

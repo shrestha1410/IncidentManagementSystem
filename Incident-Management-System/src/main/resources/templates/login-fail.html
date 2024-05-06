@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <title>login-fail</title>
+</head>
+<body>
+<script type="text/javascript">
+    function Redirect()
+    {
+<!--        var currentUrl = window.location.href;-->
+<!--        var newUrl = th:action=@{/login};-->
+          window.location ="[[@{/auth/login}]]";
+    }
+    document.write("invalid credentials");
+    setTimeout('Redirect()', 5000);
+</script>
+</body>
+</html>

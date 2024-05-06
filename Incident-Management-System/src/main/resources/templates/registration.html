@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="data:,">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Calibri, Helvetica, sans-serif;
+        }
+
+        .container {
+            padding: 50px;
+        }
+
+        input[type=text], input[type=password], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+            outline: none;
+        }
+
+        div {
+            padding: 10px 0;
+        }
+
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        .registerbtn {
+            background-color:  #4dffc3;
+            color: black;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Added style for error messages */
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<form id="registrationForm" @s ubmit.prevent="validateForm" th:action="@{/auth/registerCheck}" method="post" >
+    <div class="container">
+        <center>  <h1> Registration Form</h1> </center>
+        <hr>
+        <label><b>Firstname</b></label>
+        <input type="text" id="Firstname" placeholder="Firstname" name="firstName" required>
+        <span class="error" id="blankMsg"></span><br>
+        <label><b>Lastname</b></label>
+        <input type="text" id="lastname" placeholder="Lastname" name="lastName" required>
+        <span class="error" id="charMsg"></span><br>
+        <label for="email"><b>Email</b></label>
+        <input type="text" id="email" placeholder="Enter Email" name="email" required>
+        <br>
+        <b>Address</b>
+        <textarea cols="80" rows="5" placeholder="Address" name="address" required></textarea>
+        <br>
+        <label for="country"><b>Country</b></label>
+        <input type="text" id="country" placeholder="Enter Country" name="country" readonly>
+        <br>
+        <label for="state"><b>State</b></label>
+        <input type="text" id="state" placeholder="Enter State" name="state" required>
+        <br>
+        <label for="city"><b>City</b></label>
+        <input type="text" id="city" placeholder="Enter City" name="city" readonly>
+        <br>
+        <label for="pincode"><b>Pincode</b></label>
+        <input type="text" id="pincode" placeholder="Enter Pincode" name="pincode" onblur="getCityAndCountry()" required>
+        <br>
+        <label><b>Mobile Number</b></label>
+        <input type="text" name="country code" placeholder="Country Code"  value="+91" size="2" readonly/>
+        <input type="text" name="mobile" placeholder="mobile no." size="10" required>
+        <label><b>Fax</b></label>
+        <input type="text" name="fax" placeholder="fax" size="10" required>
+        <label><b>Phone</b></label>
+        <input type="text" name="phoneNo" placeholder="phone no." size="10" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" id="psw" placeholder="Enter Password" name="psw" required>
+        <span class="error" id="message1"></span><br>
+        <label for="psw-repeat"><b>Re-type Password</b></label>
+        <input type="password" id="psw-repeat" placeholder="Confirm Password" name="psw-repeat" required>
+        <span class="error" id="message2"></span><br>
+        <button type="submit" class="registerbtn">Register</button>
+    </div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+<script>
+  function getCityAndCountry() {
+    const pincode = document.getElementById('pincode').value;
+    const apiUrl ="https://api.postalpincode.in/pincode/"+pincode;
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+           if (data && data.length > 0 && data[0].PostOffice && data[0].PostOffice.length > 0) {
+        const city = data[0].PostOffice[0].District || 'Unknown City';
+        const country = data[0].PostOffice[0].Country || 'Unknown Country';
+          document.getElementById('city').value = city;
+          document.getElementById('country').value = country;
+        } else {
+          document.getElementById('city').value = 'City not found';
+          document.getElementById('country').value = 'Country not found';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('city').value = 'Error fetching data';
+        document.getElementById('country').value = 'Error fetching data';
+      });
+  }
+</script>
+
+<script>
+    new Vue({
+        el: '#registrationForm',
+        methods: {
+            validateForm() {
+                var pw1 = document.getElementById("psw").value;
+                var pw2 = document.getElementById("psw-repeat").value;
+                var name1 = document.getElementById("Firstname").value;
+                var name2 = document.getElementById("lastname").value;
+
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
+                if (name1 === "") {
+                    document.getElementById("blankMsg").innerHTML = "**Fill in the first name";
+                    return false;
+                }
+
+                if (!isNaN(name1)) {
+                    document.getElementById("blankMsg").innerHTML = "**Only characters are allowed";
+                    return false;
+                }
+
+                if (!isNaN(name2)) {
+                    document.getElementById("charMsg").innerHTML = "**Only characters are allowed";
+                    return false;
+                }
+
+                if (pw1 === "") {
+                    document.getElementById("message1").innerHTML = "**Fill in the password please!";
+                    return false;
+                }
+
+                if (pw2 === "") {
+                    document.getElementById("message2").innerHTML = "**Enter the password please!";
+                    return false;
+                }
+
+                if (pw1.length < 8) {
+                    document.getElementById("message1").innerHTML = "**Password length must be at least 8 characters";
+                    return false;
+                }
+
+                if (pw1.length > 15) {
+                    document.getElementById("message1").innerHTML = "**Password length must not exceed 15 characters";
+                    return false;
+                }
+
+                if (pw1 !== pw2) {
+                    document.getElementById("message2").innerHTML = "**Passwords do not match";
+                    return false;
+                }
+                if (!passwordPattern.test(pw1)) {
+                    document.getElementById("message1").innerHTML = "**Password must contain at least one uppercase letter, one lowercase letter, one special character, one digit, and be between 8 and 15 characters";
+                    return false;
+                }
+<!--                alert("Your password has been created successfully");-->
+<!--                return true;-->
+            }
+        }
+    });
+</script>
+</body>
+</html>

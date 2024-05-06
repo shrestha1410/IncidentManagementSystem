@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Calibri, Helvetica, sans-serif;
+        }
+
+        .container {
+            padding: 50px;
+        }
+
+        input[type=text], input[type=password], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+            outline: none;
+        }
+
+        div {
+            padding: 10px 0;
+        }
+
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        .registerbtn {
+            background-color:  #4dffc3;
+            color: black;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Added style for error messages */
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+         .psw {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div th.if="${message}">
+   <center <h1 th:text="${message}"> !!</h1></center>
+</div>
+<div class="container">
+    <form id="login"  th:action="@{'/auth/loginCheck'}" method="post" >
+            <center>  <h1> Login </h1> </center>
+            <hr>
+            <label for="uname"><b>Username</b></label>
+            <input type="text" id="uname" placeholder="Enter Username" name="uname" >
+            <label for="psw"><b>Password</b></label>
+            <input type="password" id="psw" placeholder="Enter Password" name="psw" >
+            <span class="psw">Forgot <a th:href="@{/auth/forget}">password?</a></span><br><br>
+            <button type="submit"  class="registerbtn" >Login</button>
+</form>
+</div>
+<div class="container">
+    <center><h3>For New User</h3></center>
+    <hr>
+    <form id="register" th:action="@{/auth/register}" method="get" >
+<button type="submit" class="registerbtn" >Register</button>
+    </form>
+    <script>
+        function validateForm() {
+                    var message = ${message};
+                    if(message!=null){
+                     alert(message);
+                    }
+            }
+    </script>
+</div>
+</body>
+</html>
